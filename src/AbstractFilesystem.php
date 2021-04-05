@@ -7,7 +7,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\PathNormalizer;
 use League\Flysystem\StorageAttributes;
 
-abstract class AbstractFilesystem extends Filesystem implements FilesystemInterface
+abstract class AbstractFilesystem extends Filesystem implements ExtendedFilesystemInterface
 {
     protected ExtendedAdapterInterface $adapter;
 

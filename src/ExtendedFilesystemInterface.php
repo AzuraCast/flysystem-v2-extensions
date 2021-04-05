@@ -6,7 +6,7 @@ use Azura\Files\Adapter\ExtendedAdapterInterface;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
 
-interface FilesystemInterface extends FilesystemOperator
+interface ExtendedFilesystemInterface extends FilesystemOperator
 {
     /**
      * @return ExtendedAdapterInterface The underlying filesystem adapter.
