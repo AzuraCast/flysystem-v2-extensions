@@ -1,0 +1,30 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Force LF line ending on shell scripts
+vagrant_* text eol=lf
+Dockerfile text eol=lf
+*.cnf text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+
+# Files that should be excluded from the Release zip/gz's
+/.github export-ignore
+/.editorconfig export-ignore
+/tests export-ignore
+/util/docker export-ignore
+/util/openapi.php export-ignore
+/util/phpstan.php export-ignore
+/util/unused.php export-ignore
+/*.yml export-ignore
+/*.yaml export-ignore
+/*.neon export-ignore
+/*.md export-ignore
+/.travis.yml export-ignore
+/docker.sh export-ignore

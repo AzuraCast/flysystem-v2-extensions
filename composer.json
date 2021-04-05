@@ -1,0 +1,58 @@
+{
+    "name": "azuracast/flysystem-v2-extensions",
+    "description": "Extensions to Flysystem V2 functionality.",
+    "keywords": [
+        "filesystem",
+        "filesystems",
+        "files",
+        "storage",
+        "aws",
+        "s3",
+        "file",
+        "cloud"
+    ],
+    "scripts": {
+        "ci": [
+            "@composer install --prefer-dist --no-progress",
+            "@phplint",
+            "@phpstan"
+        ],
+        "phplint": "phplint",
+        "phpstan": "phpstan analyse -l 6 src"
+    },
+    "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Azura\\Files\\": "src"
+        }
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "league/flysystem": "^2.0"
+    },
+    "require-dev": {
+        "league/flysystem-aws-s3-v3": "^2.0",
+        "overtrue/phplint": "^2.0",
+        "phpstan/phpstan": "^0.12.26",
+        "roave/security-advisories": "dev-latest",
+        "spatie/flysystem-dropbox": "^2.0"
+    },
+    "suggest": {
+        "spatie/flysystem-dropbox": "Dropbox adapter for Flysystem V2.",
+        "league/flysystem-aws-s3-v3": "AWS S3 API version 3 adapter for Flysystem V2."
+    },
+    "config": {
+        "preferred-install": "dist",
+        "discard-changes": true,
+        "sort-packages": true
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Buster Neece",
+            "email": "buster@busterneece.com"
+        }
+    ]
+}
