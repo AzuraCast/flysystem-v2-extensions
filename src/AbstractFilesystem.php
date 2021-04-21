@@ -6,6 +6,7 @@ use Azura\Files\Adapter\ExtendedAdapterInterface;
 use League\Flysystem\Filesystem;
 use League\Flysystem\PathNormalizer;
 use League\Flysystem\StorageAttributes;
+use League\Flysystem\UnableToRetrieveMetadata;
 
 abstract class AbstractFilesystem extends Filesystem implements ExtendedFilesystemInterface
 {
@@ -33,12 +34,20 @@ abstract class AbstractFilesystem extends Filesystem implements ExtendedFilesyst
 
     public function isDir(string $path): bool
     {
-        return $this->getMetadata($path)->isDir();
+        try {
+            return $this->getMetadata($path)->isDir();
+        } catch (UnableToRetrieveMetadata $e) {
+            return false;
+        }
     }
 
     public function isFile(string $path): bool
     {
-        return $this->getMetadata($path)->isFile();
+        try {
+            return $this->getMetadata($path)->isFile();
+        } catch (UnableToRetrieveMetadata $e) {
+            return false;
+        }
     }
 
     public function uploadAndDeleteOriginal(string $localPath, string $to): void
