@@ -4,17 +4,26 @@ namespace Azura\Files;
 
 use Azura\Files\Adapter\LocalAdapterInterface;
 use League\Flysystem\PathNormalizer;
+use League\Flysystem\UnableToCopyFile;
+use League\Flysystem\UnableToCreateDirectory;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\UnixVisibility\VisibilityConverter;
 
 class LocalFilesystem extends AbstractFilesystem
 {
     protected LocalAdapterInterface $localAdapter;
 
+    protected VisibilityConverter $visibilityConverter;
+
     public function __construct(
         LocalAdapterInterface $adapter,
         array $config = [],
-        PathNormalizer $pathNormalizer = null
+        PathNormalizer $pathNormalizer = null,
+        VisibilityConverter $visibilityConverter = null
     ) {
         $this->localAdapter = $adapter;
+
+        $this->visibilityConverter = $visibilityConverter ?? new PortableVisibilityConverter();
 
         parent::__construct($adapter, $config, $pathNormalizer);
     }
@@ -35,14 +44,30 @@ class LocalFilesystem extends AbstractFilesystem
     public function upload(string $localPath, string $to): void
     {
         $destPath = $this->getLocalPath($to);
-        copy($localPath, $destPath);
+
+        $this->ensureDirectoryExists(
+            dirname($destPath),
+            $this->visibilityConverter->defaultForDirectories()
+        );
+
+        if (!@copy($localPath, $destPath)) {
+            throw UnableToCopyFile::fromLocationTo($localPath, $destPath);
+        }
     }
 
     /** @inheritDoc */
     public function download(string $from, string $localPath): void
     {
         $sourcePath = $this->getLocalPath($from);
-        copy($sourcePath, $localPath);
+
+        $this->ensureDirectoryExists(
+            dirname($localPath),
+            $this->visibilityConverter->defaultForDirectories()
+        );
+
+        if (!@copy($sourcePath, $localPath)) {
+            throw UnableToCopyFile::fromLocationTo($sourcePath, $localPath);
+        }
     }
 
     /** @inheritDoc */
@@ -50,5 +75,26 @@ class LocalFilesystem extends AbstractFilesystem
     {
         $localPath = $this->getLocalPath($path);
         return $function($localPath);
+    }
+
+    protected function ensureDirectoryExists(string $dirname, int $visibility): void
+    {
+        if (is_dir($dirname)) {
+            return;
+        }
+
+        error_clear_last();
+
+        if (!@mkdir($dirname, $visibility, true)) {
+            $mkdirError = error_get_last();
+        }
+
+        clearstatcache(false, $dirname);
+
+        if (!is_dir($dirname)) {
+            $errorMessage = isset($mkdirError['message']) ? $mkdirError['message'] : '';
+
+            throw UnableToCreateDirectory::atLocation($dirname, $errorMessage);
+        }
     }
 }
