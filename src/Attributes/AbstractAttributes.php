@@ -65,4 +65,12 @@ abstract class AbstractAttributes implements StorageAttributes
     {
         return (StorageAttributes::TYPE_DIRECTORY === $this->type);
     }
+
+    public function withPath(string $path): StorageAttributes
+    {
+        $clone = clone $this;
+        $clone->path = $path;
+
+        return $clone;
+    }
 }
