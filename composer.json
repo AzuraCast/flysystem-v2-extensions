@@ -18,7 +18,7 @@
             "@phpstan"
         ],
         "phplint": "parallel-lint . --exclude vendor",
-        "phpstan": "phpstan analyse -l 6 src"
+        "phpstan": "phpstan analyse -l 5 src"
     },
     "type": "library",
     "minimum-stability": "dev",
@@ -30,7 +30,7 @@
     },
     "require": {
         "php": "^7.4 || ^8.0",
-        "league/flysystem": "^2.0"
+        "league/flysystem": "^2.1"
     },
     "require-dev": {
         "league/flysystem-aws-s3-v3": "^2.0",

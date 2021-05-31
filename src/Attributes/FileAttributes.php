@@ -15,8 +15,6 @@ class FileAttributes extends AbstractAttributes
     /** @var string|callable|null */
     protected $mimeType;
 
-    protected array $extraMetadata;
-
     /**
      * @param string $path
      * @param int|callable|null $fileSize
@@ -34,12 +32,10 @@ class FileAttributes extends AbstractAttributes
         array $extraMetadata = []
     ) {
         $this->type = StorageAttributes::TYPE_FILE;
-        $this->path = $path;
         $this->fileSize = $fileSize;
-        $this->visibility = $visibility;
-        $this->lastModified = $lastModified;
         $this->mimeType = $mimeType;
-        $this->extraMetadata = $extraMetadata;
+
+        parent::__construct($path, $visibility, $lastModified, $extraMetadata);
     }
 
     public function fileSize(): ?int
@@ -66,11 +62,6 @@ class FileAttributes extends AbstractAttributes
         }
 
         return $mimeType;
-    }
-
-    public function extraMetadata(): array
-    {
-        return $this->extraMetadata;
     }
 
     public static function fromArray(array $attributes): self

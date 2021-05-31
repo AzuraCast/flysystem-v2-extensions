@@ -14,6 +14,8 @@ abstract class AbstractAttributes implements StorageAttributes
 
     protected string $path;
 
+    protected array $extraMetadata;
+
     /**
      * @var string|callable|null
      */
@@ -23,6 +25,20 @@ abstract class AbstractAttributes implements StorageAttributes
      * @var int|callable|null
      */
     protected $lastModified;
+
+    /**
+     * @param string $path
+     * @param string|callable|null $visibility
+     * @param int|callable|null $lastModified
+     * @param array $extraMetadata
+     */
+    public function __construct(string $path, $visibility = null, $lastModified = null, array $extraMetadata = [])
+    {
+        $this->path = $path;
+        $this->visibility = $visibility;
+        $this->lastModified = $lastModified;
+        $this->extraMetadata = $extraMetadata;
+    }
 
     public function path(): string
     {
@@ -54,6 +70,11 @@ abstract class AbstractAttributes implements StorageAttributes
         }
 
         return $lastModified;
+    }
+
+    public function extraMetadata(): array
+    {
+        return $this->extraMetadata;
     }
 
     public function isFile(): bool

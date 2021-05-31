@@ -12,14 +12,12 @@ class DirectoryAttributes extends AbstractAttributes
      * @param string $path
      * @param string|callable|null $visibility
      * @param int|callable|null $lastModified
+     * @param array $extraMetadata
      */
-    public function __construct(string $path, $visibility = null, $lastModified = null)
+    public function __construct(string $path, $visibility = null, $lastModified = null, array $extraMetadata = [])
     {
         $this->type = StorageAttributes::TYPE_DIRECTORY;
-
-        $this->path = $path;
-        $this->visibility = $visibility;
-        $this->lastModified = $lastModified;
+        parent::__construct($path, $visibility, $lastModified, $extraMetadata);
     }
 
     public static function fromArray(array $attributes): self
@@ -27,7 +25,8 @@ class DirectoryAttributes extends AbstractAttributes
         return new self(
             $attributes[StorageAttributes::ATTRIBUTE_PATH],
             $attributes[StorageAttributes::ATTRIBUTE_VISIBILITY] ?? null,
-            $attributes[StorageAttributes::ATTRIBUTE_LAST_MODIFIED] ?? null
+            $attributes[StorageAttributes::ATTRIBUTE_LAST_MODIFIED] ?? null,
+            $attributes[StorageAttributes::ATTRIBUTE_EXTRA_METADATA] ?? [],
         );
     }
 
@@ -41,6 +40,7 @@ class DirectoryAttributes extends AbstractAttributes
             StorageAttributes::ATTRIBUTE_PATH => $this->path,
             StorageAttributes::ATTRIBUTE_VISIBILITY => $this->visibility,
             StorageAttributes::ATTRIBUTE_LAST_MODIFIED => $this->lastModified,
+            StorageAttributes::ATTRIBUTE_EXTRA_METADATA => $this->extraMetadata,
         ];
     }
 }
