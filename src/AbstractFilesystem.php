@@ -3,6 +3,7 @@
 namespace Azura\Files;
 
 use Azura\Files\Adapter\ExtendedAdapterInterface;
+use Azura\Files\Normalizer\WhitespacePathNormalizer;
 use League\Flysystem\Filesystem;
 use League\Flysystem\PathNormalizer;
 use League\Flysystem\StorageAttributes;
@@ -18,6 +19,8 @@ abstract class AbstractFilesystem extends Filesystem implements ExtendedFilesyst
         PathNormalizer $pathNormalizer = null
     ) {
         $this->adapter = $adapter;
+
+        $pathNormalizer = $pathNormalizer ?: new WhitespacePathNormalizer();
 
         parent::__construct($adapter, $config, $pathNormalizer);
     }
