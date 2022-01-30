@@ -12,13 +12,13 @@
         "cloud"
     ],
     "scripts": {
-        "ci": [
+        "test": [
             "@composer install --prefer-dist --no-progress",
             "@phplint",
             "@phpstan"
         ],
         "phplint": "parallel-lint . --exclude vendor",
-        "phpstan": "phpstan analyse -l 5 src"
+        "phpstan": "phpstan analyse --memory-limit=-1"
     },
     "type": "library",
     "minimum-stability": "dev",
@@ -29,16 +29,16 @@
         }
     },
     "require": {
-        "php": "^7.4 || ^8.0",
-        "league/flysystem": "^2.1"
+        "php": "^8.0",
+        "league/flysystem": "^3.1"
     },
     "require-dev": {
-        "league/flysystem-aws-s3-v3": "^2.0",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "php-parallel-lint/php-console-highlighter": "^0.5.0",
         "php-parallel-lint/php-parallel-lint": "^1.3",
-        "phpstan/phpstan": "^0.12.26",
+        "phpstan/phpstan": "^1.0",
         "roave/security-advisories": "dev-latest",
-        "spatie/flysystem-dropbox": "^2.0"
+        "spatie/flysystem-dropbox": ">2.0.5"
     },
     "suggest": {
         "spatie/flysystem-dropbox": "Dropbox adapter for Flysystem V2.",

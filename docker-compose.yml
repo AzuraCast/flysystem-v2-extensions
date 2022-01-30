@@ -1,9 +1,6 @@
-version : '3.7'
-
-services :
-  ci :
-    image : azuracast/flysystem-v2-extensions:latest
-    build :
-      context : .
-    volumes :
+services:
+  cli:
+    image: ghcr.io/azuracast/testing:8.1.0
+    volumes:
       - ./:/app
+    command: composer test
