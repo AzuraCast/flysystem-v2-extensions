@@ -77,7 +77,9 @@ class RemoteFilesystem extends AbstractFilesystem
         if (file_exists($localPath)) {
             if (filemtime($localPath) >= $this->lastModified($from)) {
                 touch($localPath);
+                return;
             }
+            
             unlink($localPath);
         }
 
