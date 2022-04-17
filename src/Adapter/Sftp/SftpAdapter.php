@@ -9,7 +9,9 @@ use League\Flysystem\PathPrefixer;
 use League\Flysystem\PhpseclibV3\ConnectionProvider;
 use League\Flysystem\StorageAttributes;
 use League\Flysystem\UnableToRetrieveMetadata;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\UnixVisibility\VisibilityConverter;
+use League\MimeTypeDetection\FinfoMimeTypeDetector;
 use League\MimeTypeDetection\MimeTypeDetector;
 
 class SftpAdapter extends \League\Flysystem\PhpseclibV3\SftpAdapter implements ExtendedAdapterInterface
@@ -25,11 +27,11 @@ class SftpAdapter extends \League\Flysystem\PhpseclibV3\SftpAdapter implements E
     public function __construct(
         ConnectionProvider $connectionProvider,
         string $root,
-        ?VisibilityConverter $visibilityConverter = null,
-        ?MimeTypeDetector $mimeTypeDetector = null
+        VisibilityConverter $visibilityConverter = null,
+        MimeTypeDetector $mimeTypeDetector = null
     ) {
-        $this->connectionProvider = $connectionProvider;
-        $this->visibilityConverter = $visibilityConverter;
+        $this->visibilityConverter = $visibilityConverter ?: new PortableVisibilityConverter();
+        $this->mimeTypeDetector = $mimeTypeDetector ?: new FinfoMimeTypeDetector();
         $this->prefixer = new PathPrefixer($root);
 
         parent::__construct($connectionProvider, $root, $visibilityConverter, $mimeTypeDetector);
