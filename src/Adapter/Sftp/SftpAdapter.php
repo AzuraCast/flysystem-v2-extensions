@@ -25,8 +25,8 @@ class SftpAdapter extends \League\Flysystem\PhpseclibV3\SftpAdapter implements E
     public function __construct(
         ConnectionProvider $connectionProvider,
         string $root,
-        VisibilityConverter $visibilityConverter = null,
-        MimeTypeDetector $mimeTypeDetector = null
+        ?VisibilityConverter $visibilityConverter = null,
+        ?MimeTypeDetector $mimeTypeDetector = null
     ) {
         $this->connectionProvider = $connectionProvider;
         $this->visibilityConverter = $visibilityConverter;
