@@ -24,6 +24,8 @@ class SftpAdapter extends \League\Flysystem\PhpseclibV3\SftpAdapter implements E
 
     protected PathPrefixer $prefixer;
 
+    protected MimeTypeDetector $mimeTypeDetector;
+
     public function __construct(
         ConnectionProvider $connectionProvider,
         string $root,
