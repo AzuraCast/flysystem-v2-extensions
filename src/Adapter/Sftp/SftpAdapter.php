@@ -32,6 +32,7 @@ class SftpAdapter extends \League\Flysystem\PhpseclibV3\SftpAdapter implements E
         VisibilityConverter $visibilityConverter = null,
         MimeTypeDetector $mimeTypeDetector = null
     ) {
+        $this->connectionProvider = $connectionProvider;
         $this->visibilityConverter = $visibilityConverter ?: new PortableVisibilityConverter();
         $this->mimeTypeDetector = $mimeTypeDetector ?: new FinfoMimeTypeDetector();
         $this->prefixer = new PathPrefixer($root);
