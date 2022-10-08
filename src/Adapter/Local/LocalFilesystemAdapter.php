@@ -3,8 +3,8 @@
 namespace Azura\Files\Adapter\Local;
 
 use Azura\Files\Adapter\LocalAdapterInterface;
-use League\Flysystem\DirectoryAttributes;
-use League\Flysystem\FileAttributes;
+use Azura\Files\Attributes\DirectoryAttributes;
+use Azura\Files\Attributes\FileAttributes;
 use League\Flysystem\PathPrefixer;
 use League\Flysystem\StorageAttributes;
 use League\Flysystem\UnableToRetrieveMetadata;
@@ -58,6 +58,12 @@ class LocalFilesystemAdapter extends \League\Flysystem\Local\LocalFilesystemAdap
 
         return $isDirectory
             ? new DirectoryAttributes($path, $visibility, $lastModified)
-            : new FileAttributes($path, $fileInfo->getSize(), $visibility, $lastModified);
+            : new FileAttributes(
+                $path,
+                $fileInfo->getSize(),
+                $visibility,
+                $lastModified,
+                fn() => $this->mimeType($path)->mimeType()
+            );
     }
 }
